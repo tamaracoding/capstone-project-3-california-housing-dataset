@@ -1,5 +1,7 @@
 # <div style="padding: 35px;color:#FF5733;margin:10;font-size:60%;text-align:center;display:fill;border-radius:10px;border: 2px solid black;background-color:transparent;overflow:hidden;background-color:transparent"><b><span style='color:#FFFFFF'></span></b> <b>EKSPERIMEN MODEL REGRESI UNTUK PREDIKSI HARGA PROPERTI: PENGARUH MULTIKOLINEARITAS TERHADAP MODEL PARAMETRIK VS NON PARAMETRIK</b></div>
 
+**Note:** link notebook yang memiliki map interaktif==> https://nbviewer.org/github/tamaracoding/capstone-project-3-california-housing-dataset/blob/main/CAPSTONE%20PROJECT%203%20-%20REGRESI.ipynb
+
 ![alur modeling drawio](https://github.com/user-attachments/assets/b88195f9-7bb2-4b88-8d20-28926a023d4d)
 
 <div style="color:white;display:fill;border-radius:8px;font-size:100%; letter-spacing:1.0px;"><p style="padding: 5px;color:white;text-align:left;"><b><span style='color:#FF5733'>1.1 LATAR BELAKANG MASALAH</span></b></p></div>
