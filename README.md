@@ -78,7 +78,7 @@ Memenuhi kewajiban penyusunan `Capstone Project Modul 3: Program Data Science an
 
 - RMSE pada Rule-Based model tanpa outliers sebesar 74,306.075, sementara model terbaik menunjukkan penurunan drastis dalam RMSE menjadi 38,959.215. Dengan penurunan ini,  <span style="background-color: salmon">berbagai pihak yang menggunakan model ini dapat menekan kesalahan prediksi sebesar 35,346.86. Artinya, jika setiap unit kesalahan prediksi berkorelasi langsung dengan kerugian finansial, model terbaik ini mampu mengurangi potensi kerugian hampir 47.6% dibandingkan dengan model rule-based biasa yang hanya dihilangkan outliers-nya.</span>
 
-- Dataset yang memiliki multikolinearitas (skor vif tinggi) justru meningkatkan performa seluruh model, dibandingkan dengan dataset yang memiliki skor vif < 10. Bahkan dataset tersebut juga meningkatkan performa model linear yang dianggap sensitif terhadap multikolinearitas.
+- Dataset yang memiliki multikolinearitas (skor vif tinggi) justru meningkatkan performa seluruh model (RMSE turun pada kisaran USD 1.000 hingga 2.900), dibandingkan dengan dataset yang memiliki skor vif < 10. Bahkan dataset tersebut juga meningkatkan performa model linear yang dianggap sensitif terhadap multikolinearitas.
 
 - Penambahan fitur-fitur baru pada model—meskipun secara teknis meningkatkan multikolinearitas—nyatanya justru dapat meningkatkan performa model, terutama model ensemble. Model ensemble seperti XGBoost atau Random Forest memiliki mekanisme internal yang lebih robust terhadap multikolinearitas, sehingga dapat tetap memanfaatkan informasi dari fitur tambahan tanpa terpengaruh secara signifikan oleh korelasi antar fitur.
 
@@ -107,6 +107,14 @@ Memenuhi kewajiban penyusunan `Capstone Project Modul 3: Program Data Science an
 
 Untuk meningkatkan performa model di masa mendatang, beberapa hal yang dapat dipertimbangkan antara lain:
 
+- Hanya dengan menghilangkan outliers, kita sudah bisa menekan kesalahan prediksi sebesar USD 17.987,193 (RMSE). Sehingga, melakukan filter outliers dengan metode yang lebih canggih daripada IQR, seperti: DBSCAN (Density-Based Spatial Clustering of Applications with Noise), Isolation Forest, Principal Component Analysis (PCA) untuk deteksi outliers, Z-Score, dan lain-lain, kemungkinan dapat mengurangi kesalahan prediksi lebih dari USD 17.987,193.
+
+- Melakukan hyperparameter tuning dengan bayesian optimization dapat menurunkan kesalahan prediksi sebesar USD 471 (RMSE), sehingga melakukan lebih banyak iterasi dalam optimasi model menggunakan Bayesian Optimization dapat mengurangi kesalahan prediksi lebih dari USD 471. Dalam notebook ini, iterasi pencarian hanya dilakukan sebanyak 25 kali (sekitar 4 menit). 
+
+- Kombinasi penggunaan model XGBoost Regressor + Filter Outliers + Hyperparameter Tuning (Bayesian Opt.) + Reduksi 5 fitur dengan koefisien importance terendah, dapat mengurangi kesalahan prediksi total sebesar USD 53.334,053. Sehingga, jika hyperparameter tuning bayesian optimization ditingkatkan iterasinya (misal >50) + Filter Outliers dilakukan dengan metode yang lebih canggih dibandingkan IQR + Inspeksi feature importance lebih menyeluruh, kesalahan prediksi total dapat dikurangi lebih dari USD 53.334,053.
+
+- Dataset yang memiliki multikolinearitas (skor vif tinggi) justru meningkatkan performa seluruh model (RMSE turun pada kisaran USD 1.000 hingga 2.900), dibandingkan dengan dataset yang memiliki skor vif < 10. Sehingga, disarankan untuk menggunakan dataset dengan lebih banyak fitur, meskipun memiliki multikolinearitas. Terutama, untuk model ensembel yang tahan terhadap korelasi antar fitur.
+
 - Menambahkan fitur jarak rumah ke fasilitas transportasi umum, bandara besar seperti LAX, serta kota-kota besar seperti San Francisco, San Diego, dan/atau San Jose. Fitur ini dapat membantu model menangkap variasi harga yang berkaitan dengan aksesibilitas lokasi.
 
 - Menyertakan kolom fitur biner 'san_fransisco_prop' (yes/no), yang dibuat berdasarkan koordinat latitude dan longitude San Francisco. Mengingat San Francisco merupakan salah satu kota dengan harga properti tertinggi di dunia, fitur ini akan memberikan kontribusi signifikan terhadap prediksi model.
@@ -115,9 +123,10 @@ Untuk meningkatkan performa model di masa mendatang, beberapa hal yang dapat dip
 
 - Menyertakan fitur-fitur rumah lainnya seperti jenis bahan bangunan, ada/tidaknya perapian, kolam renang, teras, halaman belakang (backyard), rubanah (basement), taman, balkon, dan lain-lain
 
--  Melakukan lebih banyak iterasi dalam optimasi model menggunakan Bayesian Optimization. Dalam notebook ini, iterasi pencarian hanya dilakukan sebanyak 25 kali (sekitar 4 menit). Menambah jumlah iterasi dapat menghasilkan hyperparameter yang lebih optimal dan meningkatkan kinerja model.
-
 - Membuat kategori khusus berdasarkan tipe properti (seperti rumah tapak, apartemen, atau townhouse) dapat membantu model lebih akurat dalam memprediksi harga karena setiap tipe properti mungkin memiliki pola harga yang berbeda.
+
+- Selain RMSE dan MAE, pertimbangkan untuk menggunakan metrik evaluasi lain seperti _R-squared adjusted_ untuk mengevaluasi seberapa baik model mengakomodasi variabel prediktor, atau MSLE (_Mean Squared Logarithmic Error_) yang lebih sensitif terhadap kesalahan prediksi pada properti berharga rendah.
+
 
 - Selain RMSE dan MAE, pertimbangkan untuk menggunakan metrik evaluasi lain seperti _R-squared adjusted_ untuk mengevaluasi seberapa baik model mengakomodasi variabel prediktor, atau MSLE (_Mean Squared Logarithmic Error_) yang lebih sensitif terhadap kesalahan prediksi pada properti berharga rendah.
 
