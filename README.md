@@ -67,3 +67,57 @@ Memenuhi kewajiban penyusunan `Capstone Project Modul 3: Program Data Science an
 - Random Forest Regressor
 - Gradient Boosting Regressor
 - Extreme Gradient Boosting
+
+## Kesimpulan
+
+- Model terbaik untuk dataset California Housing adalah XGBRegressor yang telah melalui Hyperparameter-Tuning serta fitur-fiturnya telah direduksi (direduksi dari dataset yang sudah melalui _feature engineering_, bukan sebelum). Kombinasi dari tuning dan reduksi fitur ini berhasil memaksimalkan performa model XGBoost. Bagi pihak-pihak yang ingin memaksimalkan akurasi prediksi harga properti di California, model ini adalah pilihan terbaik yang menggabungkan ketepatan prediksi dan kekuatan generalisasi.
+
+- Rule-Based model adalah model yang dibangun dengan aturan sederhana "_if-then_" atau "_if-else_". Model rule-based berperan sebagai baseline model.Performa Rule-Based model meningkat signifikan setelah outliers pada data awal (df) dihapus, RMSE turun dari 92293.268 menjadi 74306.075, sehingga outliers memiliki dampak negatif dalam dataset ini.
+
+- RMSE pada Rule-Based model tanpa outliers sebesar 74,306.075, sementara model terbaik menunjukkan penurunan drastis dalam RMSE menjadi 38,959.215. Dengan penurunan ini,  <span style="background-color: salmon">berbagai pihak yang menggunakan model ini dapat menekan kesalahan prediksi sebesar 35,346.86. Artinya, jika setiap unit kesalahan prediksi berkorelasi langsung dengan kerugian finansial, model terbaik ini mampu mengurangi potensi kerugian hampir 47.6% dibandingkan dengan model rule-based biasa yang hanya dihilangkan outliers-nya.</span>
+
+- Dataset yang memiliki multikolinearitas (skor vif tinggi) justru meningkatkan performa seluruh model, dibandingkan dengan dataset yang memiliki skor vif < 10. Bahkan dataset tersebut juga meningkatkan performa model linear yang dianggap sensitif terhadap multikolinearitas.
+
+- Penambahan fitur-fitur baru pada model—meskipun secara teknis meningkatkan multikolinearitas—nyatanya justru dapat meningkatkan performa model, terutama model ensemble. Model ensemble seperti XGBoost atau Random Forest memiliki mekanisme internal yang lebih robust terhadap multikolinearitas, sehingga dapat tetap memanfaatkan informasi dari fitur tambahan tanpa terpengaruh secara signifikan oleh korelasi antar fitur.
+
+- Fitur-fitur baru dapat membantu model ensemble untuk menangkap lebih banyak variasi dan pola yang ada dalam data, sehingga dapat meningkatkan akurasi prediksi. Pada model ensemble, penambahan fitur ini tidak menghasilkan overfitting yang sama seperti pada model regresi linier tradisional, karena model ensemble dapat mengatasi masalah redundansi informasi/kemiripan informasi melalui pengambilan keputusan kolektif dari banyak pohon keputusan yang digunakan dalam proses prediksi.
+
+- Fitur-fitur bawaan dari dataset menunjukkan skor importance yang jauh lebih kecil jika dibandingkan dengan fitur-fitur baru yang dihasilkan dari transformasi atau rekayasa fitur (_feature engineering_) terhadap fitur bawaan tersebut.
+
+- Hyperparameter tuning dengan Bayesian Optimization dapat dilakukan dengan sangat cepat (kurang dari 10 menit, bahkan bisa kurang dari 5 menit tergantung jumlah iterasi yang diinginkan). Performa model yang sudah dituning dengan metode ini, meningkat dengan signifikan dalam seluruh metrik evaluasi (RMSE, MAE, R-Squared, bahkan Standar Deviasi dari masing-masing fold).
+
+## Limitasi Model
+
+- Model ini hanya didasarkan pada data harga rumah di wilayah California dan tidak dapat digunakan secara langsung untuk wilayah lain tanpa adanya data tambahan yang relevan.
+
+- Model ini cenderung kurang akurat untuk memprediksi harga rumah yang jauh dari rentang harga umum, terutama untuk rumah mewah atau rumah dengan harga jauh di bawah rata-rata pasar.
+
+- Untuk prediksi rumah di California sendiri, <span style="background-color: salmon">model ini akan menghasilkan prediksi terbaik untuk rumah yang berada dalam rentang harga median di bawah USD 300.000</span>
+
+- Model ini tidak mempertimbangkan faktor eksternal seperti tingkat kriminalitas, kondisi fasilitas umum, pajak bumi bangunan, dll
+
+- Model ini tidak mempertimbangkan faktor internal rumah tambahan seperti ada atau tidaknya perapian, kolam renang, kanopi, balkon, teras, jenis bahan bangunan yang digunakan, dll
+
+- Model ini akan sangat cocok untuk dataset yang memiliki fitur/target seperti berikut ini:
+ longitude, latitude, housing median age, median income, median house value, ocean proximity, room per household, room per capita, bedroom ratio, income per capita, age binned custom, distance to LA, dan distance to Silicon Valley.
+
+## Rekomendasi
+
+Untuk meningkatkan performa model di masa mendatang, beberapa hal yang dapat dipertimbangkan antara lain:
+
+- Menambahkan fitur jarak rumah ke fasilitas transportasi umum, bandara besar seperti LAX, serta kota-kota besar seperti San Francisco, San Diego, dan/atau San Jose. Fitur ini dapat membantu model menangkap variasi harga yang berkaitan dengan aksesibilitas lokasi.
+
+- Menyertakan kolom fitur biner 'san_fransisco_prop' (yes/no), yang dibuat berdasarkan koordinat latitude dan longitude San Francisco. Mengingat San Francisco merupakan salah satu kota dengan harga properti tertinggi di dunia, fitur ini akan memberikan kontribusi signifikan terhadap prediksi model.
+
+- Mengintegrasikan informasi eksternal terkait lingkungan perumahan, seperti tingkat kriminalitas, kondisi fasilitas umum, dan pajak properti. Data tambahan ini bisa membantu model lebih akurat dalam menangkap faktor eksternal yang mempengaruhi harga rumah.
+
+- Menyertakan fitur-fitur rumah lainnya seperti jenis bahan bangunan, ada/tidaknya perapian, kolam renang, teras, halaman belakang (backyard), rubanah (basement), taman, balkon, dan lain-lain
+
+-  Melakukan lebih banyak iterasi dalam optimasi model menggunakan Bayesian Optimization. Dalam notebook ini, iterasi pencarian hanya dilakukan sebanyak 25 kali (sekitar 4 menit). Menambah jumlah iterasi dapat menghasilkan hyperparameter yang lebih optimal dan meningkatkan kinerja model.
+
+- Membuat kategori khusus berdasarkan tipe properti (seperti rumah tapak, apartemen, atau townhouse) dapat membantu model lebih akurat dalam memprediksi harga karena setiap tipe properti mungkin memiliki pola harga yang berbeda.
+
+- Selain RMSE dan MAE, pertimbangkan untuk menggunakan metrik evaluasi lain seperti _R-squared adjusted_ untuk mengevaluasi seberapa baik model mengakomodasi variabel prediktor, atau MSLE (_Mean Squared Logarithmic Error_) yang lebih sensitif terhadap kesalahan prediksi pada properti berharga rendah.
+
+- Melakukan filter outliers dengan metode yang lebih canggih daripada IQR, seperti: DBSCAN (Density-Based Spatial Clustering of Applications with Noise), Isolation Forest, Principal Component Analysis (PCA) untuk deteksi outliers, Z-Score, dan lain-lain
+
