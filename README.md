@@ -80,7 +80,7 @@ Memenuhi kewajiban penyusunan `Capstone Project Modul 3: Program Data Science an
 
 - Dataset yang memiliki multikolinearitas (skor vif tinggi) justru meningkatkan performa seluruh model (RMSE turun pada kisaran USD 1.000 hingga 2.900), dibandingkan dengan dataset yang memiliki skor vif < 10. Bahkan dataset tersebut juga meningkatkan performa model linear yang dianggap sensitif terhadap multikolinearitas.
 
-- Penambahan fitur-fitur baru pada model—meskipun secara teknis meningkatkan multikolinearitas—nyatanya justru dapat meningkatkan performa model, terutama model ensemble. Model ensemble seperti XGBoost atau Random Forest memiliki mekanisme internal yang lebih robust terhadap multikolinearitas, sehingga dapat tetap memanfaatkan informasi dari fitur tambahan tanpa terpengaruh secara signifikan oleh korelasi antar fitur.
+- Penambahan fitur-fitur baru pada model—meskipun secara teknis meningkatkan multikolinearitas—nyatanya justru dapat meningkatkan performa model (RMSE turun hinggan USD 3.000), terutama model ensemble. Model ensemble seperti XGBoost atau Random Forest memiliki mekanisme internal yang lebih robust terhadap multikolinearitas, sehingga dapat tetap memanfaatkan informasi dari fitur tambahan tanpa terpengaruh secara signifikan oleh korelasi antar fitur.
 
 - Fitur-fitur baru dapat membantu model ensemble untuk menangkap lebih banyak variasi dan pola yang ada dalam data, sehingga dapat meningkatkan akurasi prediksi. Pada model ensemble, penambahan fitur ini tidak menghasilkan overfitting yang sama seperti pada model regresi linier tradisional, karena model ensemble dapat mengatasi masalah redundansi informasi/kemiripan informasi melalui pengambilan keputusan kolektif dari banyak pohon keputusan yang digunakan dalam proses prediksi.
 
